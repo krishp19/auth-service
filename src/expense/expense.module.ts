@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExpenseController } from './expense.controller';
 import { ExpenseService } from './expense.service';
 import { Expense } from './expense.entity';
+import { User } from '../auth/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Expense])],
+  imports: [TypeOrmModule.forFeature([Expense, User])],
   controllers: [ExpenseController],
   providers: [ExpenseService],
 })
