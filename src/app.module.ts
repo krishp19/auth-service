@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
 import { ExpenseModule } from './expense/expense.module';
 import { Expense } from './expense/expense.entity';
+import { MulterModule } from '@nestjs/platform-express';
+
 
 
 @Module({
@@ -21,6 +23,9 @@ import { Expense } from './expense/expense.entity';
       database: process.env.DB_NAME || 'auth_db',
       entities: [User,Expense],
       synchronize: true,
+    }),
+    MulterModule.register({
+      dest: './uploads',
     }),
     AuthModule,
     ExpenseModule,
