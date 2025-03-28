@@ -38,4 +38,12 @@ export class AuthService {
     const token = this.jwtService.sign({ id: user.id, email: user.email });
     return { token };
   }
+  
+  async getAllUsers(): Promise<User[]> {
+    return this.userRepo.find({
+      select: ['id', 'email'], // Only return necessary fields
+    });
+  }
+  
 }
+

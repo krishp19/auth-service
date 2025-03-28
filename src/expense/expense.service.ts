@@ -21,19 +21,17 @@ export class ExpenseService {
       .getMany();
   }
 
-  async addExpense(expense: Omit<Expense, 'id'>): Promise<Expense> {
-    // Calculate shares if sharedWith is provided
+  async addExpense(expense: Omit<Expense, 'id' | 'userId'>): Promise<Expense> {
     if (expense.sharedWith && expense.sharedWith.length > 0) {
       const totalUsers = expense.sharedWith.length + 1; // Include the owner
       const sharePerUser = expense.amount / totalUsers;
-      
-      // Update shares in sharedWith
+  
       expense.sharedWith = expense.sharedWith.map(user => ({
         userId: user.userId,
         share: sharePerUser,
       }));
     }
-
+  
     const newExpense = this.expenseRepo.create(expense);
     return this.expenseRepo.save(newExpense);
   }

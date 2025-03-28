@@ -9,8 +9,9 @@ export class Expense {
   @Column()
   title: string;
 
-  @Column('float')
+  @Column('float', { default: 0 })
   amount: number;
+
 
   @Column()
   date: string;

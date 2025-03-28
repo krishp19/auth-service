@@ -21,6 +21,11 @@ export class AuthController {
   logout(@Req() req) {
     return { message: 'Logged out successfully' };
   }
-
+  
+  @Get('users')
+  @UseGuards(JwtAuthGuard) // Protect route
+  async getUsers() {
+    return this.authService.getAllUsers();
+  }
   
 }
