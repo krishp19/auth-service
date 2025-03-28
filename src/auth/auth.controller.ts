@@ -7,8 +7,8 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
-  async signup(@Body('email') email: string, @Body('password') password: string) {
-    return this.authService.signup(email, password);
+  async signup(@Body('name') name:string, @Body('email') email: string, @Body('password') password: string) {
+    return this.authService.signup(name, email, password);
   }
 
   @Post('login')
@@ -21,7 +21,7 @@ export class AuthController {
   logout(@Req() req) {
     return { message: 'Logged out successfully' };
   }
-  
+
   @Get('users')
   @UseGuards(JwtAuthGuard) // Protect route
   async getUsers() {

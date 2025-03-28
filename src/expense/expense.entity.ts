@@ -25,6 +25,6 @@ export class Expense {
   @Column()
   userId: number;
 
-  @Column('json', { nullable: true })
+  @Column('jsonb', { nullable: true })
   sharedWith?: { userId: string; share: number }[];
 }

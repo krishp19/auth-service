@@ -13,13 +13,16 @@ export class ExpenseService {
   ) {}
 
   async getExpenses(userId: number): Promise<Expense[]> {
-    // Fetch expenses where the user is either the owner or in sharedWith
     return this.expenseRepo
       .createQueryBuilder('expense')
       .where('expense.userId = :userId', { userId })
-      .orWhere(':userIdStr = ANY (SELECT jsonb_array_elements(sharedWith)->>\'userId\' FROM expense)', { userIdStr: userId.toString() })
+      .orWhere(`EXISTS (
+        SELECT 1 FROM jsonb_array_elements(expense.sharedWith) AS elem
+        WHERE (elem->>'userId')::int = :userId
+      )`, { userId })
       .getMany();
   }
+  
 
   async addExpense(expense: Omit<Expense, 'id' | 'userId'>): Promise<Expense> {
     if (expense.sharedWith && expense.sharedWith.length > 0) {

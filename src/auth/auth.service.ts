@@ -13,7 +13,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signup(email: string, password: string) {
+  async signup(name:string, email: string, password: string) {
     // Check if the email already exists
     const existingUser = await this.userRepo.findOne({ where: { email } });
     if (existingUser) {
@@ -22,7 +22,7 @@ export class AuthService {
 
     // Hash password and save user
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = this.userRepo.create({ email, password: hashedPassword });
+    const user = this.userRepo.create({ name, email, password: hashedPassword });
     await this.userRepo.save(user);
 
     return { message: 'Signup successful. Now you can login.' };
@@ -41,7 +41,7 @@ export class AuthService {
   
   async getAllUsers(): Promise<User[]> {
     return this.userRepo.find({
-      select: ['id', 'email'], // Only return necessary fields
+      select: ['name','id', 'email'], // Only return necessary fields
     });
   }
   
